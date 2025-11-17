@@ -20,5 +20,10 @@ The additional steps I took to set up virtio to work properly with my hypervisor
 - Installing the virtio.win iso drivers from the official fedora linux repositories
 -  Moving it to a suitable directory on my host
 -  Attatching the drivers' iso file to the windows VM's SATA CDROM
+-
+<img width="1179" height="842" alt="Screenshot_20251115_193423" src="https://github.com/user-attachments/assets/d2f6e5a6-26cc-416f-93ea-2839a93d33f1" />
+
+<img width="1997" height="1352" alt="Screenshot_20251116_144028" src="https://github.com/user-attachments/assets/6bd661a5-128f-41a8-ac6b-67b2ecc69944" />
+
+
 -  
-<img width="1910" height="531" alt="Screenshot_20251115_192849" src="https://github.com/user-attachments/assets/d0b9c2ef-05ad-4c34-a56f-ee7ea4cc41b4" />
