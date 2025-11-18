@@ -63,3 +63,16 @@ Subnet Mask: 255.255.255.0
 
 <img width="2011" height="1401" alt="Screenshot_20251117_134523" src="https://github.com/user-attachments/assets/0f520051-6f7b-4e3f-b8b5-c38cb511ed8d" />
 
+
+
+## Setting up SPLUNK
+
+I had the installer downloaded on my host, and created a disk image of it that I mounted to the windows virtual machine to install.
+(I'm running the free trial of SPLUNK enterprise)
+
+
+Creating the image             |  Installing it 
+:-------------------------:|:-------------------------:
+<img width="2081" height="1353" alt="Screenshot_20251118_150526" src="https://github.com/user-attachments/assets/5abc3f62-4d9d-4fe5-a33b-bd79b4ef0053" />  |  <img width="1440" height="329" alt="Screenshot_20251118_150017" src="https://github.com/user-attachments/assets/e074edde-fe6e-435b-84ed-52dd84205906" />
+
+
