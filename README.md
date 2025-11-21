@@ -1,16 +1,20 @@
-<img width="2024" height="1355" alt="Screenshot_20251117_133815" src="https://github.com/user-attachments/assets/ea110c53-00c1-4266-bf9b-7f142b049c72" /># SOC_Homelab_Document
 
-## Configuring the network
-I then set up a new isolated network within KVM. This allows me to use my VMs on an network that is logically seperate from my host machine and the internet. I did this for safety to
-minimize the risk of any unwanted traffic traversing outside of the virtuals machines.
-
-<img width="1404" height="1067" alt="Screenshot_20251115_190221" src="https://github.com/user-attachments/assets/ba813885-55f9-4580-8b55-b4fd1f2ae879" />
 
 
 
 # Setting up the Virtual Machines
 
+
+## Configuring the network
+To start, I set up a new isolated network within KVM. This will allow me to use my VMs on an network that is logically seperate from my host machine and the internet. I did this for safety to
+minimize the risk of any unwanted traffic traversing outside of the virtuals machines.
+
+<img width="1404" height="1067" alt="Screenshot_20251115_190221" src="https://github.com/user-attachments/assets/ba813885-55f9-4580-8b55-b4fd1f2ae879" />
+
+
 ## Setting Up The Windows 10 Victim Machine
+
+### Setting up the Windows 10 Image
 
 Using the Windows 10 Installation Media Creation Tool, created a Windows 10 ISO file
 
@@ -39,7 +43,7 @@ The additional steps I took to set up virtio to work properly with my hypervisor
 <img width="1997" height="1352" alt="Screenshot_20251116_144028" src="https://github.com/user-attachments/assets/6bd661a5-128f-41a8-ac6b-67b2ecc69944" />
 
 
-### Assigning The IP
+### Statically Assigning The Machine's IP
 Next, since I'm using these machines on an isolated network within KVM and they're only going to need to talk to each other, I got started with statically setting up each of their IP addresses with IPs that belong to private non routable subnets.
 
 For the windows machine, I configured the following under the network adapter's properties
@@ -55,8 +59,7 @@ Subnet Mask: 255.255.255.0
 <img width="2024" height="1355" alt="Screenshot_20251117_134222" src="https://github.com/user-attachments/assets/82b32e98-97d2-4d14-81e3-602443c05234" />
 
 
-
-## Setting up SPLUNK
+### Setting up SPLUNK
 
 (I renamed the VM to Windows-Machine for the sake of convenience)
 
@@ -71,6 +74,10 @@ Creating the image             |  Installing it
 
 ## Setting up the Kali Machine
 
+### Setting up the Kali Linux Image
+
+
+### Statically Assigning The Kali VM's IP Address
 As for the Kali machine, I configured the following under the network properties
 
 ```
