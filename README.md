@@ -1,7 +1,3 @@
-
-
-
-
 # Setting up the Virtual Machines
 
 
@@ -48,7 +44,7 @@ Next, since I'm using these machines on an isolated network within KVM and they'
 
 For the windows machine, I configured the following under the network adapter's properties
 
-```
+```shell
 IP: 10.10.0.10
 Subnet Mask: 255.255.255.0
 ```
@@ -78,9 +74,9 @@ Creating the image             |  Installing it
 
 
 ### Statically Assigning The Kali VM's IP Address
-As for the Kali machine, I configured the following under the network properties
+To setu up the Kali machine, I configured the following under the network properties.
 
-```
+```shell
 IP: 10.10.0.11
 Subnet Mask: 255.255.255.0
 ```
