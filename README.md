@@ -65,8 +65,11 @@ I had the installer downloaded on my host, and created a disk image of it that I
 
 Creating the image             |  Installing it 
 :-------------------------:|:-------------------------:
-<img width="2081" height="1353" alt="Screenshot_20251118_150526" src="https://github.com/user-attachments/assets/5abc3f62-4d9d-4fe5-a33b-bd79b4ef0053" />  |  <img width="1440" height="329" alt="Screenshot_20251118_150017" src="https://github.com/user-attachments/assets/e074edde-fe6e-435b-84ed-52dd84205906" />
+<img width="1440" height="329" alt="Screenshot_20251118_150017" src="https://github.com/user-attachments/assets/e074edde-fe6e-435b-84ed-52dd84205906" /> |  <img width="2081" height="1353" alt="Screenshot_20251118_150526" src="https://github.com/user-attachments/assets/5abc3f62-4d9d-4fe5-a33b-bd79b4ef0053" />
 
+
+After that point, I launched Splunk in my browser within the VM (Through localhost port 8000), and configured it by adding some basic data points to be monitored and uploaded to SPLUNK from the local event logs
+<img width="1995" height="1367" alt="Screenshot_20251118_154458" src="https://github.com/user-attachments/assets/564f1445-1b4f-4526-aa66-854258674e0e" />
 
 ## Setting up the Kali Machine
 
