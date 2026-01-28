@@ -71,6 +71,25 @@ Creating the image             |  Installing it
 After that point, I launched Splunk in my browser within the VM (Through localhost port 8000), and configured it by adding some basic data points to be monitored and uploaded to SPLUNK from the local event logs
 <img width="1995" height="1367" alt="Screenshot_20251118_154458" src="https://github.com/user-attachments/assets/564f1445-1b4f-4526-aa66-854258674e0e" />
 
+
+
+### Setting up Sysmon
+
+I started up by downloading Sysmon on my host machine, alongside a pretty basic configuration file. The specific configuration file I used was one that I got here on Github: https://github.com/olafhartong/sysmon-modular/blob/master/sysmonconfig.xml
+I had the sysmon setup and the associated files needed for it's configuration on a USB stick, so I directed it to my windows machine in the KVM settings
+
+<img width="1006" height="220" alt="Screenshot_20260127_215045-1" src="https://github.com/user-attachments/assets/ab459bc9-a4d1-4c3a-b27f-e81173200995" />
+
+Once that was done with, I placed all of my sysmon related files into my Windows machine's Documents folder before opening up Powershell as an administrator and navigating to the directory. I then ran a command to set up sysmon with the configuration file from above.
+
+<img width="1594" height="1073" alt="Screenshot_20260127_215554-1" src="https://github.com/user-attachments/assets/62e434e3-3e81-4952-b024-170903f12a32" />
+
+Once that was through, I wanted to double-check that the installation went through. to do so, I went over to the Windows Services pane, as well as the event viewer under Windows application events. Here, I saw Sysmon was showing up under both panels, so I knew i was good to go.
+
+<img width="1678" height="1134" alt="Screenshot_20260127_215857-1" src="https://github.com/user-attachments/assets/5d514498-4ba2-420c-94ae-887058a9836a" />
+
+
+
 ## Setting up the Kali Machine
 
 ### Setting up the Kali Linux Image
@@ -85,4 +104,6 @@ Subnet Mask: 255.255.255.0
 ```
 
 <img width="2011" height="1401" alt="Screenshot_20251117_134523" src="https://github.com/user-attachments/assets/0f520051-6f7b-4e3f-b8b5-c38cb511ed8d" />
+
+
 
