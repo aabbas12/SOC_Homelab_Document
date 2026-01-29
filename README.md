@@ -105,5 +105,26 @@ Subnet Mask: 255.255.255.0
 
 <img width="2011" height="1401" alt="Screenshot_20251117_134523" src="https://github.com/user-attachments/assets/0f520051-6f7b-4e3f-b8b5-c38cb511ed8d" />
 
+# Testing out an attack
+
+## Ensuring Connectivity
+I started out by ensuring the two machines were able to connect to each other. I did so by pinging the Kali machine on my Windows machine
+<img width="2018" height="1353" alt="image" src="https://github.com/user-attachments/assets/5b9994dd-9173-43a8-b52d-68f1777453c4" />
+(NOTE that this wouldn't work the other way around, as Windows' firewall would block the traffic)
+
+For this attack to go through, I'm going to want the Windows Remote Desktop Protocol port to be open, so I went into remote desktop settings and enabled the option
+<img width="1992" height="1345" alt="image" src="https://github.com/user-attachments/assets/f011e8dd-55a4-438f-984f-8e3b63678543" />
 
 
+Now that I'm ready for the attack to go through, I disabled the Windows Firewall on the victim machine through the control panel to allow for the sample attack to go through
+
+<img width="2014" height="1337" alt="image" src="https://github.com/user-attachments/assets/6913f7da-9e5d-46e4-8eba-7adc0c477ab7" />
+
+
+## Port scanning
+
+Using Nmap, I then ran a port scan on the Windows Victim machine (The -A flag was to scan everything, and the -pn flag was to skip pings in my output). 
+
+<img width="1416" height="1162" alt="image" src="https://github.com/user-attachments/assets/f2ef3a07-417e-4a10-af19-aad7fecfd34e" />
+
+Through this, I noticed that port 3389 (The port used for Microsoft RDP) was open. 
