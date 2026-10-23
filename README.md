@@ -18,7 +18,7 @@ Set up the virtual machine in Oracle VMBox, walked through the installer
 
 <img width="968" height="937" alt="Screenshot_20251115_160318" src="https://github.com/user-attachments/assets/34e0a816-4f4b-4790-b7ef-4e48b2a54f7c" />
 
-
+ 
 
 
 I then configured each of the virtual machines to be attatched to this network. I'm using virtio as the network interface, since it's more CPU effecient than the alternatives, though it does
