@@ -13,7 +13,7 @@ minimize the risk of any unwanted traffic traversing outside of the virtuals mac
 ### Setting up the Windows 10 Image
 
 Using the Windows 10 Installation Media Creation Tool, created a Windows 10 ISO file
-
+ 
 Set up the virtual machine in Oracle VMBox, walked through the installer
 
 <img width="968" height="937" alt="Screenshot_20251115_160318" src="https://github.com/user-attachments/assets/34e0a816-4f4b-4790-b7ef-4e48b2a54f7c" />
