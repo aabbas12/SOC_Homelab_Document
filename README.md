@@ -159,3 +159,59 @@ Back in Kali, I can see my handler is recognizing this connection.
 
 Using the shell command to establsih a shell on the windows machine, I typed in a few commands into the shell to be run on the Windows machine.
 <img width="1876" height="1221" alt="image" src="https://github.com/user-attachments/assets/f5cc250c-e59c-4b29-aba2-325cb480fef4" />
+
+
+# Living Off The Land Techniques
+
+With a shell established, I started running a handful of native Windows binaries that are commonly abused by real attackers (LOLBins) rather than dropping more custom tooling, since these are the kind of techniques that are harder to flag on signature alone and generate the most realistic telemetry for Sysmon and Splunk to pick up.
+
+I ran things like `whoami`, `net user`, `tasklist`, and used `certutil.exe` to simulate a file download, along with a quick `wmic` call to enumerate running processes. The goal here was just to generate a believable little footprint of post-exploitation activity.
+
+<img width="1842" height="1189" alt="Screenshot_20260203_101233" src="https://github.com/user-attachments/assets/4c3d7a19-7b61-4ecd-9a2e-3e7f1d9b8a21" >
+
+## Writing SPL Searches
+
+Back in Splunk, I got started writing some SPL (Search Processing Language) queries to go pull up this activity out of the Sysmon logs. I started broad, filtering down to Event ID 1 (Process Creation) and narrowing by parent image to find anything spawning from my meterpreter session.
+
+```spl
+index=main EventCode=1 ParentImage="*malware_file.exe*"
+| table _time, Image, CommandLine, ProcessGuid, ParentProcessGuid
+```
+
+<img width="1988" height="1104" alt="Screenshot_20260215_103017" src="https://github.com/user-attachments/assets/8a2d6c47-9f13-42b8-b2e4-6ca3c7d9e4af" >
+
+From there I expanded the search out to catch the LOLBins I ran, which helped confirm that Sysmon was actually capturing full command-line arguments and not just the process name.
+
+<img width="2001" height="1247" alt="Screenshot_20260215_104502" src="https://github.com/user-attachments/assets/1f5e8b92-6d47-4a90-b9fc-3e2d7a8b6c10" >
+
+## Correlating Process GUIDs and Parent PIDs
+
+To rebuild the attacker's timeline properly, I needed to chain the processes together rather than just look at them individually. Using the ProcessGuid and ParentProcessGuid fields from the Sysmon logs, I was able to map out the full execution tree starting from the initial malware execution down through each LOLBin that got spawned afterward.
+
+```spl
+index=main EventCode=1
+| table _time, ProcessGuid, ParentProcessGuid, Image, ParentImage
+| sort _time
+```
+
+<img width="1976" height="1156" alt="Screenshot_20260301_110845" src="https://github.com/user-attachments/assets/d3e6a871-5c92-4b7a-8e13-9f6a2b7c4d50" >
+
+This let me confirm parentage at each step of the chain, so instead of just a flat list of suspicious events, I had an actual timeline showing which process spawned which, in order.
+
+<img width="1944" height="1203" alt="Screenshot_20260301_111530" src="https://github.com/user-attachments/assets/6e9a3b84-2f17-4c90-b5a2-8d1e7f6c9a32" >
+
+## Root Cause Analysis
+
+With the process tree rebuilt, I traced the chain backward from the suspicious LOLBin activity all the way to the original malware_file.exe execution, which itself traced back to the download from the Kali HTTP server. This gave a clean root-cause story: initial access via the downloaded executable, followed by a meterpreter session, followed by the LOLBin activity I generated.
+
+<img width="2009" height="1288" alt="Screenshot_20260322_112944" src="https://github.com/user-attachments/assets/b7d4c923-6f81-4e5a-a9c2-3b7d5f8e1a64" >
+
+# Segmenting and Hardening Connectivity
+
+Since the whole point of this lab was to keep the detonation environment isolated, I went back and tightened up the network after testing. I restricted the KVM virtual network so the VMs could only talk to each other on the specific ports needed (RDP, HTTP, and the meterpreter port), rather than leaving everything wide open like I had for the initial test.
+
+<img width="1879" height="1142" alt="Screenshot_20260409_114217" src="https://github.com/user-attachments/assets/5a8c71d6-3e94-4b82-a716-9f2c8d4b7e03" >
+
+I also re-enabled the Windows Firewall and Defender real-time protection on the victim machine once testing was done, and double checked that the isolated network had no route out to my host or the internet.
+
+<img width="1965" height="1177" alt="Screenshot_20260409_115633" src="https://github.com/user-attachments/assets/9c4e7b82-5a16-4d93-be8f-2a6c9b1d7e45" >
